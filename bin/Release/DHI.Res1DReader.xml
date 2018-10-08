@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DHI.Res1DReader</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:DHI.Res1DReader.Res1DData" -->
+        <member name="M:DHI.Res1DReader.Res1DData.Export(System.Collections.Generic.IEnumerable{System.DateTime},System.String,System.String)">
+            <summary>
+            Export data to text file.
+            </summary>
+            <param name="dateTimes"></param>
+            <param name="filePath"></param>
+            <param name="delimiter"></param>
+        </member>
+        <member name="M:DHI.Res1DReader.Res1DData.Sum">
+            <summary>
+            Sum all time series values in Res1DData.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DHI.Res1DReader.Res1DQuery">
+            <summary>
+            Create query for specific quantity in res1d file.
+            </summary>
+        </member>
+        <member name="T:DHI.Res1DReader.Res1DReader">
+            <summary>
+            Class for extracting and resampling multiple res1D-file time series.
+            Resamples all results if samplingPeriodMinutes > 0 in constructor.
+            Uses first loaded res1d file to set start time.
+            </summary>
+        </member>
+        <member name="P:DHI.Res1DReader.Res1DReader.Res1DFileKeySamplingReference">
+            <summary>
+             The sampling reference sets the target resampling for all other res1d files.
+            </summary>
+        </member>
+        <member name="M:DHI.Res1DReader.Res1DReader.#ctor(System.Collections.Generic.Dictionary{System.String,System.String},System.Int32)">
+            <summary>
+            Load multiple res1d files and set first res1d-file as sampling reference.
+            </summary>
+            <param name="res1DFiles"></param>
+            <param name="samplingPeriodMinutes"></param>
+        </member>
+        <member name="M:DHI.Res1DReader.Res1DReader.Resample(System.DateTime[],System.Single[],System.DateTime,System.TimeSpan)">
+            <summary>
+             Resamples time series data (time, values)
+            </summary>
+            <param name="time"></param>
+            <param name="values"></param>
+            <param name="targetStartTime"></param>
+            <param name="targetSamplePeriod"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

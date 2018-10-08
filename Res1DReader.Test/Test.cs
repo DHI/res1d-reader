@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Res1DReader.Test
+namespace DHI.Res1DReader.Test
 {
     public class Res1DReaderTest
     {

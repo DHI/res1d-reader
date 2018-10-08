@@ -5,7 +5,7 @@
     <ProjectGuid>{3185301B-ACC2-418A-B532-B14F31431AF4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>Res1DReader</AssemblyName>
+    <AssemblyName>DHI.Res1DReader</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -28,9 +28,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\DHI.Res1DReader.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>Res1DReader</RootNamespace>
+    <RootNamespace>DHI.Res1DReader</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DHI.Mike1D.Generic, Version=16.0.0.0, Culture=neutral, PublicKeyToken=c513450b5d0bf0bf, processorArchitecture=MSIL">

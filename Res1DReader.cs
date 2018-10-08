@@ -7,7 +7,7 @@ using DHI.Mike1D.Generic;
 using DHI.Mike1D.ResultDataAccess;
 using DHI.Services.TimeSeries;
 
-namespace Res1DReader
+namespace DHI.Res1DReader
 {
     /// <summary>
     /// Class for extracting and resampling multiple res1D-file time series.

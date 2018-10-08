@@ -65,9 +65,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Res1DReader.csproj">
+    <ProjectReference Include="..\DHI.Res1DReader.csproj">
       <Project>{3185301b-acc2-418a-b532-b14f31431af4}</Project>
-      <Name>Res1DReader</Name>
+      <Name>DHI.Res1DReader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

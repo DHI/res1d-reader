@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Res1DReader", "Res1DReader.csproj", "{3185301B-ACC2-418A-B532-B14F31431AF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHI.Res1DReader", "DHI.Res1DReader.csproj", "{3185301B-ACC2-418A-B532-B14F31431AF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Res1DReader.Test", "Res1DReader.Test\Res1DReader.Test.csproj", "{D3F6BC88-1BDB-4AA5-8A21-46F7B6C78570}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHI.Res1DReader.Test", "Res1DReader.Test\DHI.Res1DReader.Test.csproj", "{D3F6BC88-1BDB-4AA5-8A21-46F7B6C78570}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

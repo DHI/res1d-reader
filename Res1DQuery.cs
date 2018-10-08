@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Res1DReader
+namespace DHI.Res1DReader
 {
+    /// <summary>
+    /// Create query for specific quantity in res1d file.
+    /// </summary>
     public abstract class Res1DQuery
     {
         public string Quantity, Res1DFileKey, Type, Name;

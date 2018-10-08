@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Res1DReader
+namespace DHI.Res1DReader
 {
 
     /// <summary>

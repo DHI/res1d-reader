@@ -1,0 +1,2279 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DHI.Services</name>
+    </assembly>
+    <members>
+        <member name="M:DHI.Services.Accounts.RegistrationService.#ctor(DHI.Services.Accounts.IAccountRepository,DHI.Services.Mails.IMailSender,DHI.Services.Mails.MailTemplate,DHI.Services.Mails.MailTemplate,System.TimeSpan)">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Accounts.RegistrationService" /> class.
+            </summary>
+            <param name="accountRepository">The account repository.</param>
+            <param name="mailSender">Mail sender</param>
+            <param name="activationEmailTemplate">Mail template for activation mails</param>
+            <param name="passwordResetEmailTemplate">Mail template for password reset mails</param>
+            <param name="tokenLifeTime">The lifetime of the activation token</param>
+        </member>
+        <member name="M:DHI.Services.Accounts.RegistrationService.GetRepositoryTypes(System.String)">
+            <summary>
+                Gets the compatible repository types.
+            </summary>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>Type[].</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.RegistrationService.Register(DHI.Services.Accounts.Account,System.String)">
+            <summary>
+                Registers the specified user account, prepares an account activation by generating a temporary activation token and
+                sends an activation email.
+            </summary>
+            <param name="account">The account.</param>
+            <param name="activationUri">The base URI for activation</param>
+            <returns>Account.</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.RegistrationService.Activate(System.String)">
+            <summary>
+                Activates the account using a temporary activation token.
+            </summary>
+            <param name="activationToken">The activation token.</param>
+            <returns><c>true</c> if activation is successful, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.RegistrationService.ResetPassword(System.String,System.String)">
+            <summary>
+                Prepares a password reset by generating a reset token and sending a password reset mail.
+            </summary>
+            <param name="id">Either the account ID or the account email.</param>
+            <param name="resetUri">The base URI for password reset.</param>
+            <returns>Maybe&lt;Account&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.RegistrationService.UpdatePassword(System.String,System.String)">
+            <summary>
+                Updates the account password using a temporary reset token.
+            </summary>
+            <param name="token">The reset token.</param>
+            <param name="password">The password.</param>
+            <returns><c>true</c> if password update is successful, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentException">Password cannot be null or empty. - password</exception>
+        </member>
+        <member name="T:DHI.Services.Accounts.IAccountRepository">
+            <summary>
+                Interface IAccountRepository
+            </summary>
+        </member>
+        <member name="T:DHI.Services.Accounts.Account">
+            <summary>
+                Class Account.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Accounts.Account.#ctor(System.String,System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Accounts.Account" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.Activated">
+            <summary>
+                Gets or sets a value indicating whether this <see cref="T:DHI.Services.Accounts.Account" /> is activated.
+            </summary>
+            <value><c>true</c> if activated; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.Token">
+            <summary>
+                Gets or sets a token for account activation or password reset.
+            </summary>
+            <value>The activation token.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.TokenExpiration">
+            <summary>
+                Gets or sets a token for account activation or password reset.
+            </summary>
+            <value>The expiration datetime of the token.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.Company">
+            <summary>
+                Gets or sets the company.
+            </summary>
+            <value>The company.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.Email">
+            <summary>
+                Gets or sets the email.
+            </summary>
+            <value>The email.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.EncryptedPassword">
+            <summary>
+                Gets or sets the encrypted password.
+            </summary>
+            <value>The encrypted password.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.PhoneNumber">
+            <summary>
+                Gets or sets the phone number.
+            </summary>
+            <value>The phone number.</value>
+        </member>
+        <member name="P:DHI.Services.Accounts.Account.Roles">
+            <summary>
+                Gets or sets the roles.
+            </summary>
+            <value>The roles.</value>
+        </member>
+        <member name="M:DHI.Services.Accounts.Account.SetPassword(System.String)">
+            <summary>
+                Sets the password.
+            </summary>
+            <param name="password">The password.</param>
+            <exception cref="T:System.ArgumentNullException">password</exception>
+            <exception cref="T:System.ArgumentException">Password cannot be empty;password</exception>
+        </member>
+        <member name="M:DHI.Services.Accounts.Account.ToString">
+            <summary>
+                Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.Account.ValidatePassword(System.String)">
+            <summary>
+                Validates the password.
+            </summary>
+            <param name="password">The password.</param>
+            <returns><c>true</c> if password is validated, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:DHI.Services.Accounts.AccountService">
+            <summary>
+                Account Service.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.#ctor(DHI.Services.Accounts.IAccountRepository)">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Accounts.AccountService" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.GetRepositoryTypes(System.String)">
+            <summary>
+                Gets the compatible repository types.
+            </summary>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>Type[].</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.Add(DHI.Services.Accounts.Account,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified account.
+            </summary>
+            <param name="account">The account.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.ArgumentException">Cannot add an account with no password defined.</exception>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.GetRoles(System.String)">
+            <summary>
+                Gets the roles.
+            </summary>
+            <param name="userName">Name of the user.</param>
+            <returns>System.String[].</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.Remove(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the account with the specified identifier.
+            </summary>
+            <param name="id">The account identifier.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.ArgumentException">You are not allowed to remove the 'admin' account.</exception>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.Update(DHI.Services.Accounts.Account,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified account.
+            </summary>
+            <param name="account">The account.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.UpdateMe(DHI.Services.Accounts.Account)">
+            <summary>
+                Updates me.
+            </summary>
+            <param name="meUpdated">Me updated.</param>
+            <returns>Account.</returns>
+        </member>
+        <member name="M:DHI.Services.Accounts.AccountService.Validate(System.String,System.String)">
+            <summary>
+                Validates the specified user name.
+            </summary>
+            <param name="userName">Name of the user.</param>
+            <param name="password">The password.</param>
+            <returns><c>true</c> if account exists and password is valid, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseGroupedUpdatableService`2">
+            <summary>
+                Abstract base class for a grouped, updatable service.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableService`2.#ctor(DHI.Services.IGroupedRepository{`0})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseGroupedUpdatableService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableService`2.GetByGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entities by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty. - group</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableService`2.GetByGroups(System.Collections.Generic.IEnumerable{System.String},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entities in each group.
+            </summary>
+            <param name="groups">The list of groups</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableService`2.GetFullNames(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names within the specified group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty. - group</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableService`2.GetFullNames(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all the full names.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseGroupedFileEntityId">
+            <summary>
+            Abstract base class for an entity ID in a file-based grouped repository.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedFileEntityId.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseGroupedFileEntityId"/> class.
+            </summary>
+            <param name="relativeFilePath">The relative file path.</param>
+            <exception cref="T:System.ArgumentNullException">relativeFilePath</exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedFileEntityId.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseGroupedFileEntityId"/> class.
+            </summary>
+            <param name="relativeFilePath">The relative file path.</param>
+            <param name="objId">The object identifier.</param>
+            <exception cref="T:System.ArgumentNullException">relativeFilePath</exception>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedFileEntityId.FileName">
+            <summary>
+            Gets the name of the file.
+            </summary>
+            <value>The name of the file.</value>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedFileEntityId.RelativeFilePath">
+            <summary>
+            Gets the relative file path.
+            </summary>
+            <value>The relative file path.</value>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedFileEntityId.FullName">
+            <summary>
+            Gets the full name.
+            </summary>
+            <value>The full name.</value>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedFileEntityId.Group">
+            <summary>
+            Gets the group.
+            </summary>
+            <value>The group.</value>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedFileEntityId.ObjId">
+            <summary>
+            Gets the object identifier.
+            </summary>
+            <value>The object identifier.</value>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedFileEntityId.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedFileEntityId.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to this instance.
+            </summary>
+            <param name="obj">The object to compare with the current object.</param>
+            <returns><c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedFileEntityId.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedFileEntityId.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseGroupedDiscreteService`2">
+            <summary>
+                Abstract base class for a grouped, discrete service.
+                It handles entities in a repository with a finite number of (discrete) entities - each identified by a unique ID.
+                The entities are organized in a hierarchical (grouped) structure.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedDiscreteService`2.#ctor(DHI.Services.IGroupedRepository{`0})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseGroupedDiscreteService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedDiscreteService`2.GetByGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entities by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty. - group</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedDiscreteService`2.GetByGroups(System.Collections.Generic.IEnumerable{System.String},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entities in each group.
+            </summary>
+            <param name="groups">The list of groups</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedDiscreteService`2.GetFullNames(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names within the specified group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty. - group</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedDiscreteService`2.GetFullNames(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all the full names.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseGroupedUpdatableDiscreteService`2">
+            <summary>
+                Abstract base class for a discrete, grouped and updatable service.
+                It handles entities in a repository with a finite number of (discrete) entities - each identified by a unique ID.
+                The entities are organized in a hierarchical (grouped) structure.
+                The entities are updatable (add, update and remove).
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableDiscreteService`2.#ctor(DHI.Services.IGroupedRepository{`0})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseGroupedUpdatableDiscreteService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableDiscreteService`2.GetByGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty. - group</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableDiscreteService`2.GetByGroups(System.Collections.Generic.IEnumerable{System.String},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entities in each group.
+            </summary>
+            <param name="groups">The list of groups</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableDiscreteService`2.GetFullNames(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names within the specified group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty. - group</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedUpdatableDiscreteService`2.GetFullNames(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseService`2">
+            <summary>
+                Abstract base class for a service.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseService`2.#ctor(DHI.Services.IRepository{`0,`1})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <exception cref="T:System.ArgumentNullException">repository</exception>
+        </member>
+        <member name="M:DHI.Services.BaseService`2.Get(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns>TEntity.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="T:DHI.Services.BaseUpdatableService`2">
+            <summary>
+                Abstract base class for an updatable service.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.#ctor(DHI.Services.IUpdatableRepository{`0,`1})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseUpdatableService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.Add(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.AddOrUpdate(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds or updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.Remove(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.Update(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableService`2.Added">
+            <summary>
+                Occurs when [added].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableService`2.Adding">
+            <summary>
+                Occurs when [adding].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableService`2.Deleted">
+            <summary>
+                Occurs when [deleted].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableService`2.Deleting">
+            <summary>
+                Occurs when [deleting].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableService`2.Updated">
+            <summary>
+                Occurs when [updated].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableService`2.Updating">
+            <summary>
+                Occurs when [updating].
+            </summary>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.OnAdded(`0)">
+            <summary>
+                Called when [added].
+            </summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.OnAdding(DHI.Services.CancelEventArgs{`0})">
+            <summary>
+                Called when [adding].
+            </summary>
+            <param name="e">The event argument.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.OnDeleted(`1)">
+            <summary>
+                Called when [deleted].
+            </summary>
+            <param name="entityId">The entity identifier.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.OnDeleting(DHI.Services.CancelEventArgs{`1})">
+            <summary>
+                Called when [deleting].
+            </summary>
+            <param name="e">The event argument.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.OnUpdated(`0)">
+            <summary>
+                Called when [updated].
+            </summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableService`2.OnUpdating(DHI.Services.CancelEventArgs{`0})">
+            <summary>
+                Called when [updating].
+            </summary>
+            <param name="e">The event argument.</param>
+        </member>
+        <member name="T:DHI.Services.ExtensionMethods">
+            <summary>
+            Class ExtensionMethods.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ExtensionMethods.GetDescription(DHI.Services.QueryOperator)">
+            <summary>
+            Gets the description (symbology) of the query operator.
+            </summary>
+            <param name="queryOperator">The query operator.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:DHI.Services.ExtensionMethods.ToCommandString(System.Collections.Generic.IEnumerable{DHI.Services.QueryCondition})">
+            <summary>
+            Converts the query to a ODBC command string.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:DHI.Services.ExtensionMethods.ToOdbcType(System.Type)">
+            <summary>
+            Converts the type to an equivalent ODBC-type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>OdbcType.</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:DHI.Services.ExtensionMethods.ToDataTable(System.Object[0:,0:])">
+            <summary>
+            Converts the object array to a DataTable object.
+            </summary>
+            <param name="data">The data.</param>
+            <returns>DataTable.</returns>
+        </member>
+        <member name="M:DHI.Services.ExtensionMethods.ToDynamic(System.Object)">
+            <summary>
+            Converts an object to a dynamic object.
+            </summary>
+            <param name="value">The object to convert.</param>
+            <returns>dynamic.</returns>
+        </member>
+        <member name="T:DHI.Services.FullName">
+            <summary>
+            Struct representing the full name of an entity. A full name is a combination of a group and an entity name
+            </summary>
+        </member>
+        <member name="M:DHI.Services.FullName.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.FullName"/> struct.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="name">The name.</param>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty.;name</exception>
+        </member>
+        <member name="P:DHI.Services.FullName.Group">
+            <summary>
+            Gets the group-part of the FullName.
+            </summary>
+            <value>The group.</value>
+        </member>
+        <member name="P:DHI.Services.FullName.Name">
+            <summary>
+            Gets the name-part of the FullName.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="M:DHI.Services.FullName.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="M:DHI.Services.FullName.Parse(System.String)">
+            <summary>
+            Parses the specified full name string. A full name string has the format {group}/{name}.
+            </summary>
+            <param name="s">The full name string.</param>
+            <returns>A FullName object.</returns>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty.;s</exception>
+        </member>
+        <member name="T:DHI.Services.Logging.ILogger">
+            <summary>
+                Logger abstraction
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Logging.ILogger.Log(DHI.Services.Logging.LogEntry)">
+            <summary>
+                Adds the specified entry to the log.
+            </summary>
+            <param name="logEntry">The log entry.</param>
+        </member>
+        <member name="E:DHI.Services.Logging.ILogger.EntryAdded">
+            <summary>
+                Occurs when a new entry is added.
+            </summary>
+        </member>
+        <member name="T:DHI.Services.Logging.ILogReader">
+            <summary>
+                Log reader abstraction
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Logging.ILogReader.Get(System.Collections.Generic.IEnumerable{DHI.Services.QueryCondition})">
+            <summary>
+                Queries the log using a list of query conditions.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>IEnumerable&lt;LogEntry&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.Logging.ILogReader.Last(System.Collections.Generic.IEnumerable{DHI.Services.QueryCondition})">
+            <summary>
+                Queries the last log entry using a list of query conditions.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>IEnumerable&lt;LogEntry&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.Logging.Logger">
+            <summary>
+                Class Logger.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Logging.Logger.GetLoggerTypes(System.String)">
+            <summary>
+                Gets an array of available logger types.
+            </summary>
+            <param name="path">The path where to look for logger types.</param>
+            <returns>Type[].</returns>
+        </member>
+        <member name="T:DHI.Services.Logging.LogLevel">
+            <summary>
+                Log level enumeration.
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Logging.LogLevel.Debug">
+            <summary>
+                Debug.
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Logging.LogLevel.Information">
+            <summary>
+                Information.
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Logging.LogLevel.Warning">
+            <summary>
+                Warning.
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Logging.LogLevel.Error">
+            <summary>
+                Error.
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Logging.LogLevel.Critical">
+            <summary>
+                Critical.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Logging.LogLevel.#ctor(System.Int32,System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Logging.LogLevel" /> class.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="displayName">The display name.</param>
+        </member>
+        <member name="T:DHI.Services.Logging.LogEntry">
+            <summary>
+                A structure representing a log entry
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Logging.LogEntry.#ctor(DHI.Services.Logging.LogLevel,System.String,System.String,System.String,System.String,System.DateTime)">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Logging.LogEntry" /> struct.
+            </summary>
+            <param name="logLevel">The log level.</param>
+            <param name="text">The text message.</param>
+            <param name="source">The source.</param>
+            <param name="tag">A tag.</param>
+            <param name="machineName">The machine name.</param>
+            <param name="dateTime">The date time.</param>
+        </member>
+        <member name="P:DHI.Services.Logging.LogEntry.DateTime">
+            <summary>
+                Gets the date time.
+            </summary>
+            <value>The date time.</value>
+        </member>
+        <member name="P:DHI.Services.Logging.LogEntry.LogLevel">
+            <summary>
+                Gets the log level.
+            </summary>
+            <value>The log level.</value>
+        </member>
+        <member name="P:DHI.Services.Logging.LogEntry.Source">
+            <summary>
+                Gets the source.
+            </summary>
+            <value>The source.</value>
+        </member>
+        <member name="P:DHI.Services.Logging.LogEntry.Tag">
+            <summary>
+                Gets the tag.
+            </summary>
+            <value>The tag.</value>
+        </member>
+        <member name="P:DHI.Services.Logging.LogEntry.MachineName">
+            <summary>
+                Gets the machine name.
+            </summary>
+            <value>The machine name.</value>
+        </member>
+        <member name="P:DHI.Services.Logging.LogEntry.Text">
+            <summary>
+                Gets the text.
+            </summary>
+            <value>The text.</value>
+        </member>
+        <member name="M:DHI.Services.Logging.LogEntry.CompareTo(DHI.Services.Logging.LogEntry)">
+            <summary>
+                Compares the current object with another object of the same type.
+            </summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>
+                A value that indicates the relative order of the objects being compared.
+            </returns>
+        </member>
+        <member name="T:DHI.Services.Maybe`1">
+            <summary>
+            Struct Maybe. A Maybe&lt;T&gt; is an object which can have a value or not.
+            </summary>
+            <typeparam name="T">Type of value.</typeparam>
+        </member>
+        <member name="M:DHI.Services.Maybe`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.Maybe`1"/> class.
+            </summary>
+            <param name="value">The value.</param>
+            <exception cref="T:System.ArgumentNullException">value</exception>
+        </member>
+        <member name="P:DHI.Services.Maybe`1.HasValue">
+            <summary>
+            Gets a value indicating whether this instance has a value.
+            </summary>
+            <value><c>true</c> if this instance has a value; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:DHI.Services.Maybe`1.Value">
+            <summary>
+            Gets the value of this instance
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Maybe`1.op_BitwiseOr(DHI.Services.Maybe{`0},`0)">
+            <summary>
+            Gets value of this instance (<paramref name="c1"/>), if it has a value, otherwise it returns <paramref name="c2"/>
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Maybe`1.op_BitwiseOr(DHI.Services.Maybe{`0},System.Func{`0})">
+            <summary>
+            Gets value of this instance (<paramref name="c1"/>), if it has a value, otherwise it returns <paramref name="c2"/>
+            </summary>
+        </member>
+        <member name="T:DHI.Services.Maybe">
+            <summary>
+            Class Maybe.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Maybe.ToMaybe``1(``0)">
+            <summary>
+            Converts a value to a maybe of this value.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="value">The value.</param>
+            <returns>Maybe&lt;T&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.Maybe.Empty``1">
+            <summary>
+            Returns an empty maybe.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>Maybe&lt;T&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.Maybe.Single``1(DHI.Services.Maybe{``0})">
+            <summary>
+            Return value of this instance - for build compatibility
+            </summary>
+        </member>
+        <member name="T:DHI.Services.Query`1">
+            <summary>
+                Class representing a query.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Query`1.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Query`1" /> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Query`1.#ctor(DHI.Services.QueryCondition)">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Query`1" /> class.
+            </summary>
+            <param name="queryCondition">A query condition.</param>
+        </member>
+        <member name="M:DHI.Services.Query`1.#ctor(System.Collections.Generic.IEnumerable{DHI.Services.QueryCondition})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Query`1" /> class.
+            </summary>
+            <param name="queryConditions">The query conditions.</param>
+        </member>
+        <member name="M:DHI.Services.Query`1.GetEnumerator">
+            <summary>
+                Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+                A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:DHI.Services.Query`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+                Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        </member>
+        <member name="M:DHI.Services.Query`1.Add(DHI.Services.QueryCondition)">
+            <summary>
+                Adds the specified query condition.
+            </summary>
+            <param name="queryCondition">The query condition.</param>
+        </member>
+        <member name="M:DHI.Services.Query`1.ToExpression">
+            <summary>
+                Converts the query into a LINQ expression.
+            </summary>
+            <returns>Expression&lt;Func&lt;T, System.Boolean&gt;&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.Query`1.ToString">
+            <summary>
+                Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.Services">
+            <summary>
+            Class Services.
+            </summary>
+        </member>
+        <member name="P:DHI.Services.Services.Connections">
+            <summary>
+            Gets the connections.
+            </summary>
+            <value>The connections.</value>
+        </member>
+        <member name="M:DHI.Services.Services.Configure(DHI.Services.IConnectionRepository,System.Boolean)">
+            <summary>
+            Configures the service policy.
+            </summary>
+            <param name="connectionRepository">The connection repository.</param>
+            <param name="lazyCreation">if set to <c>true</c> lazy creation.</param>
+        </member>
+        <member name="M:DHI.Services.Services.Get``1(System.String)">
+            <summary>
+            Gets the service instance with the specified connection identifier.
+            </summary>
+            <typeparam name="TService">The type of the service.</typeparam>
+            <param name="connectionId">The connection identifier.</param>
+            <returns>TService.</returns>
+        </member>
+        <member name="T:DHI.Services.ConnectionType">
+            <summary>
+            Connection Type.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ConnectionType.#ctor(System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.ConnectionType"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="type">The type.</param>
+        </member>
+        <member name="P:DHI.Services.ConnectionType.ProviderArguments">
+            <summary>
+            Gets the provider arguments.
+            </summary>
+            <value>The provider arguments.</value>
+        </member>
+        <member name="P:DHI.Services.ConnectionType.ProviderTypes">
+            <summary>
+            Gets the provider types.
+            </summary>
+            <value>The provider types.</value>
+        </member>
+        <member name="P:DHI.Services.ConnectionType.Type">
+            <summary>
+            Gets the type.
+            </summary>
+            <value>The type.</value>
+        </member>
+        <member name="T:DHI.Services.ConnectionTypeRepository">
+            <summary>
+                Connection type repository.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ConnectionTypeRepository.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.ConnectionTypeRepository" /> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ConnectionTypeRepository.Add(DHI.Services.ConnectionType,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified connection type.
+            </summary>
+            <param name="connectionType">Type of the connection.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.ConnectionTypeRepository.Remove(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the connection type with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.ConnectionTypeRepository.Update(DHI.Services.ConnectionType,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified connection type.
+            </summary>
+            <param name="connectionType">Type of the connection.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.ConnectionTypeRepository.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all connection types.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.FakeConnection">
+            <summary>
+            Fake connection. To be used in unit tests. 
+            </summary>
+        </member>
+        <member name="M:DHI.Services.FakeConnection.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.FakeConnection"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:DHI.Services.FakeConnection.Create">
+            <summary>
+            Creates this instance.
+            </summary>
+            <returns>System.Object.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:DHI.Services.IConnection">
+            <summary>
+            Interface IConnection
+            </summary>
+        </member>
+        <member name="T:DHI.Services.FakeGroupedRepository`2">
+            <summary>
+                In-memory implementation of a grouped, discrete and updatable repository. To be used in for example unit tests.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.FakeGroupedRepository`2.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.FakeGroupedRepository`2" /> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.FakeGroupedRepository`2.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.FakeGroupedRepository`2" /> class.
+            </summary>
+            <param name="entities">The entities.</param>
+        </member>
+        <member name="M:DHI.Services.FakeGroupedRepository`2.ContainsGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether the repository contains the specified group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if the specified group contains group; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeGroupedRepository`2.GetByGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets entities by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeGroupedRepository`2.GetFullNames(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeGroupedRepository`2.GetFullNames(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names by group.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.IFactory">
+            <summary>
+            Interface IFactory
+            </summary>
+        </member>
+        <member name="M:DHI.Services.IFactory.Create">
+            <summary>
+            Creates an instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:DHI.Services.IGroupedService`1">
+            <summary>
+                Interface IGroupedService
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IGroupedService`1.GetByGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets entities by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IGroupedService`1.GetByGroups(System.Collections.Generic.IEnumerable{System.String},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entities in each group.
+            </summary>
+            <param name="groups">The list of groups</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IGroupedService`1.GetFullNames(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IGroupedService`1.GetFullNames(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.IRepository`2">
+            <summary>
+                Interface IRepository
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IRepository`2.Get(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns>Maybe&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.IDiscreteService`2">
+            <summary>
+                Interface IDiscreteService
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IDiscreteService`2.Count(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Counts the number of entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.IDiscreteService`2.Exists(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether an entity with the specified identifier exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.IDiscreteService`2.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IDiscreteService`2.GetIds(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entity identifiers.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntityId&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.IService`2">
+            <summary>
+                Interface IService
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IService`2.Get(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns>TEntity.</returns>
+        </member>
+        <member name="T:DHI.Services.Parameters">
+            <summary>
+                Class Parameters.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Parameters.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Parameters" /> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Parameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.Parameters" /> class.
+            </summary>
+            <param name="parameters">The parameters.</param>
+        </member>
+        <member name="M:DHI.Services.Parameters.Parse(System.String)">
+            <summary>
+                Parses the specified parameters string and converts it into a Parameters object.
+            </summary>
+            <param name="s">The parameters string.</param>
+            <returns>Parameters.</returns>
+        </member>
+        <member name="M:DHI.Services.Parameters.GetParameter(System.String,System.Int32)">
+            <summary>
+                Gets the parameter with the specified key. If the key is not found, the default value is returned.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.Parameters.GetParameter(System.String,System.Double)">
+            <summary>
+                Gets the parameter with the specified key. If the key is not found, the default value is returned.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns>System.Double.</returns>
+        </member>
+        <member name="M:DHI.Services.Parameters.GetParameter(System.String,System.DateTime)">
+            <summary>
+                Gets the parameter with the specified key. If the key is not found, the default value is returned.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns>DateTime.</returns>
+        </member>
+        <member name="M:DHI.Services.Parameters.GetParameter(System.String,System.Boolean)">
+            <summary>
+                Gets the parameter with the specified key. If the key is not found, the default value is returned.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="defaultValue">he default value.</param>
+            <returns><c>true</c> if parameter is true, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.Parameters.GetParameter(System.String,System.String)">
+            <summary>
+                Gets the parameter with the specified key. If the key is not found, the default value is returned.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:DHI.Services.Parameters.ToString">
+            <summary>
+                Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.Service">
+            <summary>
+            Class Service.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Service.GetProviderTypes``1(System.String)">
+            <summary>
+            Gets all the provider types in the given path location that are compatible with the given abstraction type. If no path is given, the path of the executing assembly is used.
+            </summary>
+            <typeparam name="TAbstraction">The type (interface or abstract base class) of the abstraction.</typeparam>
+            <param name="path">The path.</param>
+            <returns>Type[].</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:DHI.Services.Enumeration">
+            <summary>
+            Abstract base class for enumerations
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Enumeration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.Enumeration"/> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.Enumeration.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.Enumeration"/> class.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="displayName">The display name.</param>
+        </member>
+        <member name="P:DHI.Services.Enumeration.DisplayName">
+            <summary>
+            Gets the display name.
+            </summary>
+            <value>The display name.</value>
+        </member>
+        <member name="P:DHI.Services.Enumeration.Value">
+            <summary>
+            Gets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="M:DHI.Services.Enumeration.FromDisplayName``1(System.String)">
+            <summary>
+            Gets an enumeration from its display name.
+            </summary>
+            <typeparam name="TEnumeration">The type of the enumeration.</typeparam>
+            <param name="displayName">The display name.</param>
+            <returns>TEnumeration.</returns>
+        </member>
+        <member name="M:DHI.Services.Enumeration.FromValue``1(System.Int32)">
+            <summary>
+            Gets an enumeration from its value.
+            </summary>
+            <typeparam name="TEnumeration">The type of the enumeration.</typeparam>
+            <param name="value">The value.</param>
+            <returns>TEnumeration.</returns>
+        </member>
+        <member name="M:DHI.Services.Enumeration.GetAll``1">
+            <summary>
+            Gets all enumerations of the specified type.
+            </summary>
+            <typeparam name="TEnumeration">The type of the enumeration.</typeparam>
+            <returns>IEnumerable&lt;TEnumeration&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.Enumeration.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to this instance.
+            </summary>
+            <param name="obj">The object to compare with the current object.</param>
+            <returns><c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:DHI.Services.Enumeration.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+        </member>
+        <member name="M:DHI.Services.Enumeration.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseNamedEntity`1">
+            <summary>
+            Abstract base class for a named entity.
+            </summary>
+            <typeparam name="TId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseNamedEntity`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseNamedEntity`1"/> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.BaseNamedEntity`1.#ctor(`0,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseNamedEntity`1"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+            <exception cref="T:System.ArgumentNullException">name</exception>
+        </member>
+        <member name="P:DHI.Services.BaseNamedEntity`1.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="M:DHI.Services.BaseNamedEntity`1.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseEntity`1">
+            <summary>
+            Abstract base class for an entity
+            </summary>
+            <typeparam name="TId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseEntity`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseEntity`1"/> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.BaseEntity`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseEntity`1"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <exception cref="T:System.ArgumentNullException">id</exception>
+        </member>
+        <member name="P:DHI.Services.BaseEntity`1.Id">
+            <summary>
+            Gets the identifier.
+            </summary>
+            <value>The identifier.</value>
+        </member>
+        <member name="P:DHI.Services.BaseEntity`1.Metadata">
+            <summary>
+            Gets the metadata.
+            </summary>
+            <value>The metadata.</value>
+        </member>
+        <member name="M:DHI.Services.BaseEntity`1.ShouldSerializeMetadata">
+            <summary>
+            Determines whether the Metadata property should be serialized
+            </summary>
+        </member>
+        <member name="T:DHI.Services.BaseGroupedEntity`1">
+            <summary>
+            Abstract base class for a grouped, named entity
+            </summary>
+            <typeparam name="TId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedEntity`1.#ctor(`0,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseGroupedEntity`1"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+            <param name="group">The group.</param>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedEntity`1.FullName">
+            <summary>
+            Gets the full name.
+            </summary>
+            <value>The full name.</value>
+        </member>
+        <member name="P:DHI.Services.BaseGroupedEntity`1.Group">
+            <summary>
+            Gets the group.
+            </summary>
+            <value>The group.</value>
+        </member>
+        <member name="M:DHI.Services.BaseGroupedEntity`1.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseDiscreteRepository`2">
+            <summary>
+                Abstract base class for a discrete repository.
+                A discrete repository is a repository with a finite number of (discrete) entities - each identified by a unique ID.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteRepository`2.Count(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Counts the number of entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteRepository`2.Contains(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether an entity with the specified identifier exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteRepository`2.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteRepository`2.GetIds(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entity identifiers.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntityId&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteRepository`2.Get(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns>Maybe&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseDiscreteService`2">
+            <summary>
+                Abstract base class for a discrete service.
+                A discrete service handles entities in a repository with a finite number of (discrete) entities - each identified
+                by a unique ID.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteService`2.#ctor(DHI.Services.IDiscreteRepository{`0,`1})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseDiscreteService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <exception cref="T:System.ArgumentNullException">repository</exception>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteService`2.Count(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Counts the number of entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteService`2.Exists(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether an entity with the specified identifier exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteService`2.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.BaseDiscreteService`2.GetIds(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entity identifiers.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntityId&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.BaseUpdatableDiscreteService`2">
+            <summary>
+                Abstract base class for a discrete, updatable service.
+                It handles entities in a repository with a finite number of (discrete) entities - each identified by a unique ID.
+                The entities are updatable (add, update and remove).
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.#ctor(DHI.Services.IUpdatableRepository{`0,`1})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.BaseUpdatableDiscreteService`2" /> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.Add(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.AddOrUpdate(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds or updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.Remove(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.Update(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableDiscreteService`2.Added">
+            <summary>
+                Occurs when [added].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableDiscreteService`2.Adding">
+            <summary>
+                Occurs when [adding].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableDiscreteService`2.Deleted">
+            <summary>
+                Occurs when [deleted].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableDiscreteService`2.Deleting">
+            <summary>
+                Occurs when [deleting].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableDiscreteService`2.Updated">
+            <summary>
+                Occurs when [updated].
+            </summary>
+        </member>
+        <member name="E:DHI.Services.BaseUpdatableDiscreteService`2.Updating">
+            <summary>
+                Occurs when [updating].
+            </summary>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.OnAdded(`0)">
+            <summary>
+                Called when [added].
+            </summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.OnAdding(DHI.Services.CancelEventArgs{`0})">
+            <summary>
+                Called when [adding].
+            </summary>
+            <param name="e">The e.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.OnDeleted(`1)">
+            <summary>
+                Called when [deleted].
+            </summary>
+            <param name="entityId">The entity identifier.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.OnDeleting(DHI.Services.CancelEventArgs{`1})">
+            <summary>
+                Called when [deleting].
+            </summary>
+            <param name="e">The e.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.OnUpdated(`0)">
+            <summary>
+                Called when [updated].
+            </summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:DHI.Services.BaseUpdatableDiscreteService`2.OnUpdating(DHI.Services.CancelEventArgs{`0})">
+            <summary>
+                Called when [updating].
+            </summary>
+            <param name="e">The e.</param>
+        </member>
+        <member name="T:DHI.Services.CancelEventArgs`1">
+            <summary>
+            Generic CancelEventArgs exposing an item.
+            </summary>
+            <typeparam name="TItem">The type of the item.</typeparam>
+        </member>
+        <member name="M:DHI.Services.CancelEventArgs`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.CancelEventArgs`1"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="P:DHI.Services.CancelEventArgs`1.Item">
+            <summary>
+            Gets the item.
+            </summary>
+            <value>The item.</value>
+        </member>
+        <member name="T:DHI.Services.BaseConnection">
+            <summary>
+            Abstract base class for a connection.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.BaseConnection.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.BaseConnection" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:DHI.Services.BaseConnection.Create">
+            <summary>
+            Creates a service instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:DHI.Services.ConnectionService">
+            <summary>
+            Class ConnectionService.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ConnectionService.#ctor(DHI.Services.IConnectionRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.ConnectionService"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="T:DHI.Services.IConnectionRepository">
+            <summary>
+                Interface IConnectionRepository
+            </summary>
+        </member>
+        <member name="T:DHI.Services.EventArgs`1">
+            <summary>
+            Generic EventArgs exposing an item.
+            </summary>
+            <typeparam name="TItem">The type of the item.</typeparam>
+        </member>
+        <member name="M:DHI.Services.EventArgs`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.EventArgs`1"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="P:DHI.Services.EventArgs`1.Item">
+            <summary>
+            Gets the item.
+            </summary>
+            <value>The item.</value>
+        </member>
+        <member name="T:DHI.Services.IGroupedRepository`1">
+            <summary>
+                Interface IGroupedRepository
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IGroupedRepository`1.ContainsGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether the repository contains group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if the specified group contains group; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:DHI.Services.IGroupedRepository`1.GetByGroup(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets entities by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IGroupedRepository`1.GetFullNames(System.String,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names by group.
+            </summary>
+            <param name="group">The group.</param>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IGroupedRepository`1.GetFullNames(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the full names.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.INamedEntity`1">
+            <summary>
+            Interface INamedEntity
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+        </member>
+        <member name="P:DHI.Services.INamedEntity`1.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="T:DHI.Services.IUpdatableRepository`2">
+            <summary>
+                Interface IUpdatableRepository
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IUpdatableRepository`2.Add(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.IUpdatableRepository`2.Remove(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.IUpdatableRepository`2.Update(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="T:DHI.Services.IUpdatableService`2">
+            <summary>
+                Interface IUpdatableService
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IUpdatableService`2.Add(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.IUpdatableService`2.AddOrUpdate(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds or updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.IUpdatableService`2.Remove(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.IUpdatableService`2.Update(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="T:DHI.Services.FakeRepository`2">
+            <summary>
+                In-memory implementation of a discrete and updatable repository. To be used in for example unit tests.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.FakeRepository`2" /> class.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.FakeRepository`2" /> class.
+            </summary>
+            <param name="entities">The entities.</param>
+        </member>
+        <member name="P:DHI.Services.FakeRepository`2.Entities">
+            <summary>
+                Gets the entities.
+            </summary>
+            <value>The entities.</value>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Count(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Counts the number of entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Contains(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether an entity with the specified identifier exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.GetIds(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entity identifiers.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntityId&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Get(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns>Maybe&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Add(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Adds the specified entity.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Remove(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Removes the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Update(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Updates the specified entity.
+            </summary>
+            <param name="updatedEntity">The updated entity.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Get(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+                Gets entities matching the specified predicate.
+            </summary>
+            <param name="predicate">The predicate.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Get(System.Collections.Generic.IEnumerable{DHI.Services.QueryCondition})">
+            <summary>
+                Gets entities matching the specified query.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeRepository`2.Remove(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+                Removes all entities matching the specified predicate.
+            </summary>
+            <param name="predicate">The predicate.</param>
+        </member>
+        <member name="T:DHI.Services.ExpressionBuilder">
+            <summary>
+            Class ExpressionBuilder.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ExpressionBuilder.Build``1(System.Collections.Generic.IEnumerable{DHI.Services.QueryCondition})">
+            <summary>
+            Builds a LINQ expression from a collection of query conditions.
+            </summary>
+            <typeparam name="T">Type of LINQ parameter</typeparam>
+            <param name="filter">The collection of query conditions.</param>
+            <returns>Expression&lt;Func&lt;T, System.Boolean&gt;&gt;.</returns>
+            <exception cref="T:System.ArgumentNullException">filter</exception>
+            <exception cref="T:System.ArgumentException">Filter cannot be empty.;filter</exception>
+        </member>
+        <member name="T:DHI.Services.QueryCondition">
+            <summary>
+            Class QueryCondition.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.QueryCondition.#ctor(System.String,DHI.Services.QueryOperator,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.QueryCondition"/> class.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="queryOperator">The query operator.</param>
+            <param name="value">The value.</param>
+            <exception cref="T:System.ArgumentException">Cannot be null or empty.;item</exception>
+            <exception cref="T:System.ArgumentNullException">value</exception>
+        </member>
+        <member name="M:DHI.Services.QueryCondition.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.QueryCondition"/> class.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="P:DHI.Services.QueryCondition.Item">
+            <summary>
+            Gets the item.
+            </summary>
+            <value>The item.</value>
+        </member>
+        <member name="P:DHI.Services.QueryCondition.QueryOperator">
+            <summary>
+            Gets the query operator.
+            </summary>
+            <value>The query operator.</value>
+        </member>
+        <member name="P:DHI.Services.QueryCondition.Value">
+            <summary>
+            Gets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="M:DHI.Services.QueryCondition.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:DHI.Services.QueryOperator">
+            <summary>
+            Enum QueryOperator
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.GreaterThan">
+            <summary>
+            Greater than
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.GreaterThanOrEqual">
+            <summary>
+            Greater than or equal
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.LessThan">
+            <summary>
+            Less than
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.LessThanOrEqual">
+            <summary>
+            Less than or equal
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.Like">
+            <summary>
+            Like
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.NotLike">
+            <summary>
+            Not like
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.Equal">
+            <summary>
+            Equal
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.NotEqual">
+            <summary>
+            Not equal
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.Intersects">
+            <summary>
+            Intersects
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.Contains">
+            <summary>
+            Contains
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.SpatiallyIntersects">
+            <summary>
+            SpatiallyIntersects
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.SpatiallyContains">
+            <summary>
+            SpatiallyContains
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.SpatiallyWithin">
+            <summary>
+            SpatiallyWithin
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.SpatiallyWithinDistance">
+            <summary>
+            SpatiallyWithinDistance
+            </summary>
+        </member>
+        <member name="F:DHI.Services.QueryOperator.SpatiallyTransform">
+            <summary>
+            SpatiallyTransform
+            </summary>
+        </member>
+        <member name="T:DHI.Services.IEntity`1">
+            <summary>
+            Interface IEntity
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+        </member>
+        <member name="P:DHI.Services.IEntity`1.Id">
+            <summary>
+            Gets the identifier.
+            </summary>
+            <value>The identifier.</value>
+        </member>
+        <member name="P:DHI.Services.IEntity`1.Metadata">
+            <summary>
+            Gets the metadata.
+            </summary>
+            <value>The metadata.</value>
+        </member>
+        <member name="T:DHI.Services.IGroupedEntity`1">
+            <summary>
+            Interface IGroupedEntity
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+        </member>
+        <member name="P:DHI.Services.IGroupedEntity`1.FullName">
+            <summary>
+            Gets the full name.
+            </summary>
+            <value>The full name.</value>
+        </member>
+        <member name="P:DHI.Services.IGroupedEntity`1.Group">
+            <summary>
+            Gets the group.
+            </summary>
+            <value>The group.</value>
+        </member>
+        <member name="T:DHI.Services.IDiscreteRepository`2">
+            <summary>
+                Interface IDiscreteRepository
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.IDiscreteRepository`2.Count(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Counts the number of entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.IDiscreteRepository`2.Contains(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether an entity with the specified identifier exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.IDiscreteRepository`2.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.IDiscreteRepository`2.GetIds(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entity identifiers.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntityId&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.ISerializable">
+            <summary>
+            Interface ISerializable
+            </summary>
+        </member>
+        <member name="M:DHI.Services.ISerializable.Serialize">
+            <summary>
+            Serializes this instance.
+            </summary>
+            <returns>System.String.</returns>
+        </member>
+        <member name="T:DHI.Services.FakeDiscreteRepository`2">
+            <summary>
+                In-memory implementation of a discrete repository. To be used in for example unit tests.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
+        </member>
+        <member name="M:DHI.Services.FakeDiscreteRepository`2.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+                Initializes a new instance of the <see cref="T:DHI.Services.FakeDiscreteRepository`2" /> class.
+            </summary>
+            <param name="entities">The entities.</param>
+        </member>
+        <member name="M:DHI.Services.FakeDiscreteRepository`2.Count(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Counts the number of entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeDiscreteRepository`2.Contains(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Determines whether an entity with the specified identifier exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeDiscreteRepository`2.GetAll(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entities.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeDiscreteRepository`2.GetIds(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets all entity identifiers.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>IEnumerable&lt;TEntityId&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.FakeDiscreteRepository`2.Get(`1,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+                Gets the entity with the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="user">The user.</param>
+            <returns>Maybe&lt;TEntity&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.Roles">
+            <summary>
+            Enum Roles
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Roles.Guest">
+            <summary>
+            Guest
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Roles.User">
+            <summary>
+            User
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Roles.Editor">
+            <summary>
+            Editor
+            </summary>
+        </member>
+        <member name="F:DHI.Services.Roles.Administrator">
+            <summary>
+            Administrator
+            </summary>
+        </member>
+        <member name="T:DHI.Services.ServiceLocator">
+            <summary>
+            Class ServiceLocator.
+            </summary>
+        </member>
+        <member name="P:DHI.Services.ServiceLocator.Count">
+            <summary>
+            Gets the number of services.
+            </summary>
+            <value>The count.</value>
+        </member>
+        <member name="M:DHI.Services.ServiceLocator.Contains(System.String)">
+            <summary>
+            Determines whether the service locator contains a service with the specified service identifier.
+            </summary>
+            <param name="serviceId">The service identifier.</param>
+            <returns><c>true</c> if the service locator contains a service with the specified service identifier; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:DHI.Services.ServiceLocator.Get``1(System.String)">
+            <summary>
+            Gets the service with the specified identifier.
+            </summary>
+            <typeparam name="TService">The type of the service.</typeparam>
+            <param name="serviceId">The service identifier.</param>
+            <returns>TService.</returns>
+            <exception cref="T:System.ArgumentNullException">serviceId</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:DHI.Services.ServiceLocator.GetAll``1">
+            <summary>
+            Gets all services of the given type.
+            </summary>
+            <typeparam name="TService">The type of the t service.</typeparam>
+            <returns>IEnumerable&lt;TService&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.ServiceLocator.Register(System.Object,System.String)">
+            <summary>
+            Registers the specified service with the given identifier.
+            </summary>
+            <param name="service">The service.</param>
+            <param name="serviceId">The service identifier.</param>
+            <exception cref="T:System.ArgumentNullException">
+            service
+            or
+            serviceId
+            </exception>
+        </member>
+        <member name="M:DHI.Services.ServiceLocator.Remove(System.String)">
+            <summary>
+            Removes the service with the specified service identifier.
+            </summary>
+            <param name="serviceId">The service identifier.</param>
+            <exception cref="T:System.ArgumentNullException">serviceId</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+    </members>
+</doc>

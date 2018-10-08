@@ -1,0 +1,599 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DHI.Services.TimeSeries</name>
+    </assembly>
+    <members>
+        <member name="T:DHI.Services.TimeSeries.BasicAnalysis">
+            <summary>
+                Time series data extension methods for various basic analysis.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.TimeSpan``1(DHI.Services.TimeSeries.ITimeSeriesData{``0})">
+            <summary>
+                Calculates the total time span covered by the times series data.
+            </summary>
+            <typeparam name="TValue">The numeric type of the time series data values.</typeparam>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>TimeSpan.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Sum``1(DHI.Services.TimeSeries.ITimeSeriesData{``0})">
+            <summary>
+                Calculates the sum of the time series data values.
+            </summary>
+            <typeparam name="TValue">The numeric type of the time series data values.</typeparam>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The sum of time series data values.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Sum(DHI.Services.TimeSeries.ITimeSeriesData{System.Double})">
+            <summary>
+                Calculates the sum of the time series data values.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The sum of time series data values.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Sum(DHI.Services.TimeSeries.ITimeSeriesData{System.Single})">
+            <summary>
+                Calculates the sum of the time series data values.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The sum of time series data values.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Minimum``1(DHI.Services.TimeSeries.ITimeSeriesData{``0})">
+            <summary>
+                Calculates the minimum value of the time series data.
+            </summary>
+            <typeparam name="TValue">The numeric type of time series data values.</typeparam>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The minimum time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Minimum(DHI.Services.TimeSeries.ITimeSeriesData{System.Double})">
+            <summary>
+                Calculates the minimum value of the time series data.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The minimum time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Minimum(DHI.Services.TimeSeries.ITimeSeriesData{System.Single})">
+            <summary>
+                Calculates the minimum value of the time series data.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The minimum time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Maximum``1(DHI.Services.TimeSeries.ITimeSeriesData{``0})">
+            <summary>
+                Calculates the maximum value of the time series data.
+            </summary>
+            <typeparam name="TValue">The numeric type of time series data values.</typeparam>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The maximum time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Maximum(DHI.Services.TimeSeries.ITimeSeriesData{System.Double})">
+            <summary>
+                Calculates the maximum value of the time series data.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The maximum time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Maximum(DHI.Services.TimeSeries.ITimeSeriesData{System.Single})">
+            <summary>
+                Calculates the maximum value of the time series data.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The maximum time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Average``1(DHI.Services.TimeSeries.ITimeSeriesData{``0})">
+            <summary>
+                Calculates the average value of the time series data.
+            </summary>
+            <typeparam name="TValue">The numeric type of time series data values.</typeparam>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The average time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Average(DHI.Services.TimeSeries.ITimeSeriesData{System.Double})">
+            <summary>
+                Calculates the average value of the time series data.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The average time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Average(DHI.Services.TimeSeries.ITimeSeriesData{System.Single})">
+            <summary>
+                Calculates the average value of the time series data.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <returns>The average time series data value.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.GapFill(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},DHI.Services.TimeSeries.TimeSeriesDataType)">
+            <summary>
+                Replaces null values with interpolated values according to the time series data type.
+                If the time series data type is not explicitly defined, the data type 'Instantaneous' is assumed.
+            </summary>
+            <param name="timeSeriesData">Time series data to be gap-filled</param>
+            <param name="dataType">The time series data type.</param>
+            <returns>ITimeSeriesData&lt;System.Double&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.MovingAverage(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},System.Int32)">
+            <summary>
+                Calculates the moving average over a given window.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <param name="window">The window length.</param>
+            <returns>Moving average time series data.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.PercentileValue(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},System.Int32)">
+            <summary>
+                Return the value below which the input percentage of all values in time series data fall.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <param name="percentile">The percentile.</param>
+            <returns>The value below which the percentage of input values fall.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.Resample(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},System.TimeSpan,DHI.Services.TimeSeries.TimeSeriesDataType)">
+            <summary>
+                Resamples a time series to a time series with time steps equivalent to the given time span.
+                The time series values are found using interpolation according to the time series data type.
+                if the time series data type is not explicitly defined, the data type 'Instantaneous' is assumed.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <param name="timeSpan">The time span between time steps.</param>
+            <param name="dataType">The time series data type.</param>
+            <returns>TimeSeriesData&lt;System.Double&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis.ToEquidistant``1(DHI.Services.TimeSeries.ITimeSeriesData{``0},System.TimeSpan,System.Nullable{``0},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Returns new time series data with regular interval and values from the original data when available.
+            Values are copied from the original time series data when the new time step coincides precisely with a time step in the original data.
+            The fill value is used at points that have no coincident point in the original data.
+            Points that are in the original data but do not coincide with any of the time steps in the new data are ignored.
+            No interpolation is performed.
+            If the original data is empty and no start time is specified, the result will have no entry.
+            If the original data is empty and a start time is specified, the result will have a single entry.
+            </summary>
+            <param name="timeSpan">Regular interval to be used in the new data</param>
+            <param name="fillValue">Value to use at time steps that do not coincide with any time step in the original data.</param>
+            <param name="startTime">First time for the new data. If null (default), the first time available in the original data will be used.</param>
+            <param name="endTime">Last time for the new data. If null (default), the last time available in the original data will be used. If the specified end time cannot be reached using a regular time step from the first time in the new data, the last time in the new data will be the last time that can be reached using a regular time step before the specified end time.</param>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.BasicAnalysis._CreateNewTimeSeriesDataWithRegularTimeStepAndConstantValue``1(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.TimeSpan,System.Nullable{``0})">
+            <summary>
+            Create new time series data with regular time step and filled with a constant value.
+            If start and end time are not specified, the result will have no data points.
+            If only start or only end time are specified, result will have a single data point with the specified time.
+            </summary>
+            <param name="from">Start time and starting point for all intervals.</param>
+            <param name="to">End time, no data will be added after this time.</param>
+            <param name="timeSpan">Interval</param>
+            <param name="value">Use this value for all time steps in the new time series data</param>
+            <returns></returns>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.DurationCurveAnalysis">
+            <summary>
+                Time series data extension method for creation of a duration curve.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DurationCurveAnalysis.DurationCurve(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},System.Double,System.Int32,System.Int32)">
+            <summary>
+                Duration curve.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <param name="durationInHours">The duration in hours.</param>
+            <param name="numberOfIntervals">The number of value intervals.</param>
+            <param name="minNumberOfValues">
+                The minimum number of values accepted.
+                If time series data does not contain enough values (!= null) an exception is thrown.
+            </param>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.ReduceAnalysis">
+            <summary>
+                Time series data extension method for reduction.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.ReduceAnalysis.Reduce(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},System.Double,System.Int32)">
+            <summary>
+                Reduces the specified time series data using the Ramer–Douglas–Peucker algorithm but maintains the general shape of the series.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <param name="relativeTolerance">
+                The tolerance expressed as a percentage of the difference between maximum and minimum value of the input data.
+            </param>
+            <param name="minimumCount">The required minimum number of data points to trigger a reduction</param>
+            <returns>ITimeSeriesData&lt;System.Double&gt;.</returns>
+            <exception cref="T:System.Exception">There should be at least three values in the time series.</exception>
+            <exception cref="T:System.Exception">The relative tolerance should be higher than 0 and lower than 100.</exception>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.SmoothingAnalysis">
+            <summary>
+                Time series data extension method for smoothing analysis.
+            </summary>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.SmoothingAnalysis.SavitskyGolay(System.Collections.Generic.IEnumerable{System.Double},System.Int32,System.Int32)">
+            <summary>
+                Smooth the input data and reserve the peaks using the Savitsky-Golay filter.
+            </summary>
+            <param name="values">Input data.</param>
+            <param name="window">An odd number of data points used to estimate the central data.</param>
+            <param name="order">The order of the estimating polynomial.</param>
+            <returns>List of doubles.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.SmoothingAnalysis.Smoothing(DHI.Services.TimeSeries.ITimeSeriesData{System.Double},System.Int32,System.Int32)">
+            <summary>
+                Smooth the time series data and reserve the peaks using the Savitsky-Golay filter.
+            </summary>
+            <param name="timeSeriesData">The time series data.</param>
+            <param name="window">An odd number of data points used to estimate the central data.</param>
+            <param name="order">The order of the estimating polynomial.</param>
+            <returns>ITimeSeriesData&lt;System.Double&gt;.</returns>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2">
+            <summary>
+            Class TimeSeriesServiceConnection.
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+            <typeparam name="TValue">The type of the values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2.RepositoryType">
+            <summary>
+            Gets or sets the type of the repository.
+            </summary>
+            <value>The type of the repository.</value>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2.CreateConnectionType``1(System.String)">
+            <summary>
+            Creates the connection type.
+            </summary>
+            <typeparam name="TConnection">The type of the connection.</typeparam>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>ConnectionType.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.TimeSeriesServiceConnection`2.Create">
+            <summary>
+            Creates a TimeSeriesService instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2">
+            <summary>
+            Discrete TimeSeries Service. A discrete time series service handles time series in a repository with a finite number of (discrete) time series - each identified by a unique ID.
+            </summary>
+            <typeparam name="TId">The type of the time series identifier.</typeparam>
+            <typeparam name="TValue">The type of the time series values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.#ctor(DHI.Services.TimeSeries.IDiscreteTimeSeriesRepository{`0,`1})">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2"/> class.
+            </summary>
+            <param name="repository">A time series repository.</param>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetRepositoryTypes(System.String)">
+            <summary>
+            Gets an array of compatible repository types.
+            </summary>
+            <param name="path">A specific folder path to search in. If not specified, the location of the executing assembly is used.</param>
+            <returns>Type[].</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetDateTimes(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the available time steps for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="user">The user.</param>
+            <returns>SortedSet&lt;DateTime&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetFirstDateTime(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the first time step for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="user">The user.</param>
+            <returns>System.Nullable&lt;DateTime&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetFirstValueAfter(`0,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the first value after the specified time step for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="dateTime">The date time.</param>
+            <param name="user">The user.</param>
+            <returns>DataPoint&lt;TValue&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetLastDateTime(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the last time step for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="user">The user.</param>
+            <returns>System.Nullable&lt;DateTime&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetLastValue(`0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the last value for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="user">The user.</param>
+            <returns>DataPoint&lt;TValue&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetLastValue(`0[],System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets a collection of last values for a collection of time series with the specified identifiers.
+            </summary>
+            <param name="ids">The time series identifiers.</param>
+            <param name="user">The user.</param>
+            <returns>IDictionary&lt;TId, DataPoint&lt;TValue&gt;&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetLastValueBefore(`0,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the last value before the specified time step for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="dateTime">The date time.</param>
+            <param name="user">The user.</param>
+            <returns>DataPoint&lt;TValue&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetValue(`0,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the value at the given time step for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="dateTime">The date time.</param>
+            <param name="user">The user.</param>
+            <returns>DataPoint&lt;TValue&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetInterpolatedValue(`0,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the interpolated value at the given time step for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="dateTime">The date time.</param>
+            <param name="user">The user.</param>
+            <returns>DataPoint&lt;System.Double&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetValues(`0,System.DateTime,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the values within the given time interval for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="from">From date time.</param>
+            <param name="to">To date time.</param>
+            <param name="user">The user.</param>
+            <returns>ITimeSeriesData&lt;TValue&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetValuesWithInterpolatedEndPoints(`0,System.DateTime,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the values within the given time interval (with interpolated end points) for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="from">From date time.</param>
+            <param name="to">To date time.</param>
+            <param name="user">The user.</param>
+            <returns>ITimeSeriesData&lt;System.Double&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetValues(`0,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets the values within the given time interval for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="from">From date time.</param>
+            <param name="to">To date time.</param>
+            <param name="user">The user.</param>
+            <returns>ITimeSeriesData&lt;TValue&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetValues(`0[],System.DateTime,System.DateTime,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets a collection of values within the given time interval for a collection of time series with the specified identifiers.
+            </summary>
+            <param name="ids">The time series ids.</param>
+            <param name="from">From date time.</param>
+            <param name="to">To date time.</param>
+            <param name="user">The user.</param>
+            <returns>IDictionary&lt;TId, ITimeSeriesData&lt;TValue&gt;&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.GetValues(`0[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Gets a collection of values within the given time interval for a collection of time series with the specified identifiers.
+            </summary>
+            <param name="ids">The time series ids.</param>
+            <param name="from">From date time.</param>
+            <param name="to">To date time.</param>
+            <param name="user">The user.</param>
+            <returns>IDictionary&lt;TId, ITimeSeriesData&lt;TValue&gt;&gt;.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesService`2.SetValues(`0,DHI.Services.TimeSeries.ITimeSeriesData{`1},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Sets some time series values for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="data">The time series data.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2">
+            <summary>
+            Class DiscreteTimeSeriesServiceConnection.
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+            <typeparam name="TValue">The type of the values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2.RepositoryType">
+            <summary>
+            Gets or sets the type of the repository.
+            </summary>
+            <value>The type of the repository.</value>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2.CreateConnectionType``1(System.String)">
+            <summary>
+            Creates the connection type.
+            </summary>
+            <typeparam name="TConnection">The type of the connection.</typeparam>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>ConnectionType.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.DiscreteTimeSeriesServiceConnection`2.Create">
+            <summary>
+            Creates a DiscreteTimeSeriesService instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.IDiscreteTimeSeriesService`2">
+            <summary>
+            Interface IDiscreteTimeSeriesService
+            </summary>
+            <typeparam name="TId">The type of the time series identifier.</typeparam>
+            <typeparam name="TValue">The type of the time series values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.IDiscreteTimeSeriesService`2.SetValues(`0,DHI.Services.TimeSeries.ITimeSeriesData{`1},System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Sets some time series values for a time series with the specified identifier.
+            </summary>
+            <param name="id">The time series identifier.</param>
+            <param name="data">The time series data.</param>
+            <param name="user">The user.</param>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2">
+            <summary>
+            Class GroupedDiscreteTimeSeriesServiceConnection.
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+            <typeparam name="TValue">The type of the values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2.RepositoryType">
+            <summary>
+            Gets or sets the type of the repository.
+            </summary>
+            <value>The type of the repository.</value>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2.CreateConnectionType``1(System.String)">
+            <summary>
+            Creates the connection type.
+            </summary>
+            <typeparam name="TConnection">The type of the connection.</typeparam>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>ConnectionType.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.GroupedDiscreteTimeSeriesServiceConnection`2.Create">
+            <summary>
+            Creates a GroupedDiscreteTimeSeriesService instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2">
+            <summary>
+            Class GroupedUpdatableTimeSeriesServiceConnection.
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+            <typeparam name="TValue">The type of the values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2.RepositoryType">
+            <summary>
+            Gets or sets the type of the repository.
+            </summary>
+            <value>The type of the repository.</value>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2.CreateConnectionType``1(System.String)">
+            <summary>
+            Creates the connection type.
+            </summary>
+            <typeparam name="TConnection">The type of the connection.</typeparam>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>ConnectionType.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.GroupedUpdatableTimeSeriesServiceConnection`2.Create">
+            <summary>
+            Creates a GroupedUpdatableTimeSeriesService instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2">
+            <summary>
+            Class UpdatableTimeSeriesServiceConnection.
+            </summary>
+            <typeparam name="TId">The type of the identifier.</typeparam>
+            <typeparam name="TValue">The type of the values.</typeparam>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2" /> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="P:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2.RepositoryType">
+            <summary>
+            Gets or sets the type of the repository.
+            </summary>
+            <value>The type of the repository.</value>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2.CreateConnectionType``1(System.String)">
+            <summary>
+            Creates the connection type.
+            </summary>
+            <typeparam name="TConnection">The type of the connection.</typeparam>
+            <param name="path">The path where to look for compatible providers.</param>
+            <returns>ConnectionType.</returns>
+        </member>
+        <member name="M:DHI.Services.TimeSeries.UpdatableTimeSeriesServiceConnection`2.Create">
+            <summary>
+            Creates a UpdatableTimeSeriesService instance.
+            </summary>
+            <returns>System.Object.</returns>
+        </member>
+    </members>
+</doc>

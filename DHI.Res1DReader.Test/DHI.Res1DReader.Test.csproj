@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3F6BC88-1BDB-4AA5-8A21-46F7B6C78570}</ProjectGuid>
+    <ProjectGuid>{4B59E790-E2B8-4F47-B1FB-504C773AD9E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Res1DReader.Test</RootNamespace>
-    <AssemblyName>Res1DReader.Test</AssemblyName>
+    <RootNamespace>DHI.Res1DReader.Test</RootNamespace>
+    <AssemblyName>DHI.Res1DReader.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -61,14 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DHI.Res1DReader.csproj">
-      <Project>{3185301b-acc2-418a-b532-b14f31431af4}</Project>
-      <Name>DHI.Res1DReader</Name>
-    </ProjectReference>
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -78,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DHI.Res1DReader.csproj">
+      <Project>{e2d20294-4b07-4a4d-95a3-1fc80ef9c3f7}</Project>
+      <Name>DHI.Res1DReader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
